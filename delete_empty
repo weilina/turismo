@@ -9,9 +9,9 @@ for w in parsed_sentences:
 		nouns = find_tag(w, n_tag)
 		print nouns	
 	
-input:
-noun_list =["Na","Nb","Nc","Nd","Nv"]
-parsed_sentences =
+### input:
+### noun_list =["Na","Nb","Nc","Nd","Nv"]
+### parsed_sentences =
 [[('<', 'PARENTHESISCATEGORY'),
   ('!', 'EXCLAMATIONCATEGORY'),
   ('--', 'DASHCATEGORY'),
@@ -37,7 +37,7 @@ parsed_sentences =
   ('\xe4\xba\x86', 'T'),
   ('\xef\xbc\x81', 'EXCLAMATIONCATEGORY')]]
 
-output:
+### output:
 []
 []
 []
