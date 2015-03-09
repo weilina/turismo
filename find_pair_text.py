@@ -16,46 +16,36 @@ The output data need to be a txt file to insert in CopeOpi.
 
 import pymongo
 import pickle
-import os
-import logging
-import sys
 
-class UtilsContent(object):
-	'''UtilsContent for content operations such as content extraction for individual pairs 
-	or contentextraction for group (top 10 pairs). 
-	'''
-	def _init_(self, ):
-		self.
-		
+
+'''UtilsContent for content operations such as content extraction for individual pairs 
+or contentextraction for group (top 10 pairs). 
+'''
+
+	
 '''
 eg.,
 search_pairs = [(u'分類', u'西班牙'),(u'教會', u'西班牙'),(u'西班牙', u'餅'),(u'刑法', u'西班牙'),(u'西班牙', u'革命'),(u'西班牙', u'體育場'),(u'印度',u'西班牙'),(u'傳真',u'西班牙'),(u'休閒', u'西班牙'),(u'國會',u'西班牙')]
 '''
-def find_pair_text_ID (search_pairs):
-	mongo_cos = ['bk.posts', 'qy.posts']
-	for mongo_co in mongo_cos:
-		co =db[mongo_co] 
-		
-		for mdoc in co.find_one():### TypeError: string indices must be integers
-			parsed = mdoc['parsed']
-			
-			for parsed_sent in mdoc['parsed']:
-				spliited = parsed_sent.strip().split(u'　')
-				
-				for word_pos in spliited:
-					token = '('.join(word_pos.split('(')[:-1])
-					objective_post_id = {k: objective_post_id[k] for k in search_pair if k in token}
+db = pymongo.Connection('localhost')['espanol'] 
+mongo_cos = ['bk.posts', 'qy.posts']
+for mongo_co in mongo_cos:
+	co =db[mongo_co]
+	
+	objective_post_id = {}
+	for mdoc in co.find():
+		if 'parsed' not in mdoc or len(mdoc['parsed']) == 0:
+			continue	
+			post_id = str(mdoc['_id'])
+			for parsed_content in mdoc['parsed']:
+				if u'分類'in parsed_content:
+					print 'found tk1'
+				else: 
+					continue	
+					if u'西班牙' in parsed_content:
+						print 'in', post_id, 'found both terms'
+					else:
+						continue
 					
-	def write_txt():
-		print('Creating new text file')
-		name = raw_input('Enter name of text file: ')+'.txt'  
-
-		try:
-			file = open(name,'w')   # Trying to create a new file 
-			file.close()
-
-		except:
-			print('Something went wrong!')
-			sys.exit(0) # quit Python
-
-	write_txt()
+			objective_post_id [post_id]= parsed_content		
+		
