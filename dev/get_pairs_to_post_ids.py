@@ -148,6 +148,10 @@ if __name__ == '__main__':
     results = {}
 
     for mongo_co in mongo_cos:
-        post_ids = get_objective_post_ids(mongo_co, search_pairs)
 
+        post_ids = get_objective_post_ids(mongo_co, search_pairs)
+        # post_ids = stupid_search(mongo_co, search_pairs)
+        
         results[mongo_co] = post_ids
+
+
