@@ -104,6 +104,42 @@ def find_matching(tokens_trim, search_pairs, exactly_match=False):
     return matched_pairs
 
 
+def stupid_search(co, search_pairs):
+    """
+    Parameters
+    ==========
+        co: mongo collection pointer
+        search_pairs: (list) target keyword pairs
+    Returns
+    =======
+        objective_post_ids: (dict) ids of posts containing corresponding keywords in the search_pairs
+    Note
+    ====
+        use naive string match algorithm, 
+        could slow down the entire performance if the data were too large        
+    """
+
+    objective_post_ids = defaultdict(list)
+
+    for mdoc in co.find():
+        if 'parsed' not in mdoc or len(mdoc['parsed']) == 0:
+            # cannot find the key 'parsed' in the current document
+            continue
+        else:
+            # concatenate list item to a single string
+            post_contents = ''.join(mdoc['parsed'])
+
+            # get str id
+            post_id = str(mdoc['_id'])            
+
+            for pair in search_pairs:
+                w1, w2 = pair
+                if w1 in post_contents and w2 in post_contents: # this will traverse entire post
+
+                    objective_post_ids[pair].append(post_id)
+
+    return objective_post_ids
+
 if __name__ == '__main__':
 
     db = pymongo.Connection('localhost')['espanol']
